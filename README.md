@@ -22,7 +22,7 @@ instance.search( "Welt" ).then( ( result ) => {
 
 ### The result array
 The resulted return value is in the following scheme:
-```json
+```javascript
 [
 	{ 
 		text: 'weltlich',
