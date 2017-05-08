@@ -1,0 +1,32 @@
+{
+  "name": "duden-search-api",
+  "version": "1.0.0",
+  "description": "the missing duden api/node.js module",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"hehe\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Coderwelsch/duden-search-api.git"
+  },
+  "keywords": [
+    "duden",
+    "node",
+    "api",
+    "german",
+    "literal",
+    "scraping",
+    "restful"
+  ],
+  "author": "Coderwelsch, Joseph Ribbe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Coderwelsch/duden-search-api/issues"
+  },
+  "homepage": "https://github.com/Coderwelsch/duden-search-api#readme",
+  "dependencies": {
+    "jsdom": "^10.1.0",
+    "node-fetch": "^1.6.3"
+  }
+}
