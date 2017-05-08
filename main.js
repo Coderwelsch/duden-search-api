@@ -10,7 +10,7 @@ const
 	RESULT_SELECTOR = "#content > section.block > section.wide";
 
 
-export default class DudenSearchApi {
+module.exports = class DudenSearchApi {
 	constructor () {
 
 	}
@@ -84,4 +84,4 @@ export default class DudenSearchApi {
 	generateSearchUrl ( searchString ) {
 		return DUDEN_SEARCH_URL + encodeURIComponent( searchString );
 	}
-}
+};
