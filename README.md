@@ -38,5 +38,6 @@ The resulted return value is in the following scheme:
 
 ## Todo
 - [x] simple word search
-- [x] extended word results
+- [ ] extend word results (distribution, hyphenation, ancestry, examples)
+- [ ] documentation ;)
 - [ ] …
