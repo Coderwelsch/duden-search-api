@@ -22,7 +22,7 @@ instance.search( "Welt" ).then( ( result ) => {
 
 ### The result array
 The resulted return value is in the following scheme:
-```json
+```javascript
 [
 	{ 
 		text: 'weltlich',
@@ -38,5 +38,6 @@ The resulted return value is in the following scheme:
 
 ## Todo
 - [x] simple word search
-- [x] extended word results
+- [ ] extend word results (distribution, hyphenation, ancestry, examples)
+- [ ] documentation ;)
 - [ ] …
