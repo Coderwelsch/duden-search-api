@@ -16,7 +16,7 @@ module.exports = class DudenSearchApi {
 	}
 
 	search ( word = "" ) {
-		return new Promise( ( reject, resolve ) => {
+		return new Promise( ( resolve, reject ) => {
 			Fetch( this.generateSearchUrl( word ) ).then( ( resource ) => {
 				return resource.text();
 			} ).then( ( text ) => {
@@ -25,6 +25,35 @@ module.exports = class DudenSearchApi {
 				reject( error );
 			} );
 		} );
+	}
+
+	searchWordList ( array, onDone, onProgress ) {
+		let current = 0,
+			enrichedData = [],
+			total = array.length,
+			handleRequest = ( word, data, isError ) => {
+				current++;
+
+				if ( !isError ) {
+					enrichedData.push( data );
+				}
+
+				if ( typeof onProgress === "function" ) {
+					onProgress( word, data, current, total, isError );
+				}
+
+				if ( current === total ) {
+					onDone( enrichedData );
+				}
+			};
+
+		for ( let word of array ) {
+			this.search( word ).then( ( data ) => {
+				handleRequest( word, data );
+			} ).catch( ( error ) => {
+				handleRequest( word, null, error );
+			} );
+		}
 	}
 
 	parseResult ( result ) {
