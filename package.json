@@ -1,6 +1,6 @@
 {
   "name": "duden-search-api",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "the missing duden api/node.js module",
   "main": "main.js",
   "scripts": {

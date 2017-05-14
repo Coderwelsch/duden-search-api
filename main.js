@@ -6,13 +6,18 @@ const
 
 // variables
 const
+	MAX_CONNECTIONS = 3,
 	DUDEN_SEARCH_URL = "http://www.duden.de/suchen/dudenonline/",
 	RESULT_SELECTOR = "#content > section.block > section.wide";
 
 
 module.exports = class DudenSearchApi {
-	constructor () {
+	constructor ( maxConnections = MAX_CONNECTIONS ) {
+		this.maxConnections = maxConnections;
+	}
 
+	setMaxConnections ( connections = MAX_CONNECTIONS ) {
+		this.maxConnections = connections;
 	}
 
 	search ( word = "" ) {
@@ -30,30 +35,71 @@ module.exports = class DudenSearchApi {
 	searchWordList ( array, onDone, onProgress ) {
 		let current = 0,
 			enrichedData = [],
+			currentConnections = 0,
 			total = array.length,
-			handleRequest = ( word, data, isError ) => {
+			arr = array.slice( 0 );
+
+		let handleRequest = ( word, data, isError ) => {
+			let returnValue;
+
+			if ( typeof onProgress === "function" ) {
+				returnValue = onProgress( word, data, current, total, isError );
+			}
+
+			if ( !isError && returnValue instanceof Promise ) {
+				returnValue.then( ( data ) => {
+					current++;
+
+					enrichedData.push( data );
+
+					if ( current >= total ) {
+						onDone( enrichedData );
+					} else {
+						manageRequests();
+					}
+				} ).catch( () => {
+					current++;
+
+					if ( current >= total ) {
+						onDone( enrichedData );
+					} else {
+						manageRequests();
+					}
+				} );
+			} else {
 				current++;
 
-				if ( !isError ) {
-					enrichedData.push( data );
-				}
+				enrichedData.push( returnValue || data );
 
-				if ( typeof onProgress === "function" ) {
-					onProgress( word, data, current, total, isError );
-				}
-
-				if ( current === total ) {
+				if ( current >= total ) {
 					onDone( enrichedData );
+				} else {
+					manageRequests();
 				}
-			};
+			}
+		};
 
-		for ( let word of array ) {
-			this.search( word ).then( ( data ) => {
-				handleRequest( word, data );
-			} ).catch( ( error ) => {
-				handleRequest( word, null, error );
-			} );
-		}
+		let manageRequests = () => {
+			if ( currentConnections < this.maxConnections ) {
+				let newConnections = this.maxConnections - currentConnections;
+
+				if ( newConnections >= arr.length ) {
+					newConnections = arr.length;
+				}
+
+				for ( let i = 0; i < newConnections; i++ ) {
+					let word = arr.pop();
+
+					this.search( word ).then( ( data ) => {
+						handleRequest( word, data );
+					} ).catch( ( error ) => {
+						handleRequest( word, null, error );
+					} );
+				}
+			}
+		};
+
+		manageRequests();
 	}
 
 	parseResult ( result ) {
