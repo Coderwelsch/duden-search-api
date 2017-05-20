@@ -1,10 +1,10 @@
 {
   "name": "duden-search-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "the missing duden api/node.js module",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"hehe\""
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Coderwelsch/duden-search-api#readme",
   "dependencies": {
+    "jquery": "^3.2.1",
     "jsdom": "^10.1.0",
     "node-fetch": "^1.6.3"
   }
