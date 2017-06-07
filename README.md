@@ -1,6 +1,6 @@
 # duden-search-api
 ![](https://upload.wikimedia.org/wikipedia/commons/a/af/Duden_Logo_2017.svg)
-A Node.js website scraper for searching of german words on duden.de
+A Node.js Duden.de 'API' (website scraper for searching of german words on duden.de)
 
 ## Install
 ```bash
@@ -13,7 +13,7 @@ const DudenSearchApi = require( "duden-search-api" );
 
 let instance = new DudenSearchApi();
 
-instance.search( "Welt" ).then( ( result ) => {
+instance.search( "gestern" ).then( ( result ) => {
 	console.log( result );
 } ).catch( ( error ) => {
 	console.log( error );
@@ -24,20 +24,26 @@ instance.search( "Welt" ).then( ( result ) => {
 The resulted return value is in the following scheme:
 ```javascript
 [
-	{ 
-		text: 'weltlich',
-		description: 'Adjektiv - 1. der (diesseitigen, irdischen) Welt angehörend, …2. nicht geistlich, nicht kirchlich',
-		wordProperties: { 
-			type: 'Adjektiv',
-			genus: undefined,
-			definition: '1. der (diesseitigen, irdischen) Welt angehörend, …2. nicht geistlich, nicht kirchlich' },
-			definitionUrl: 'http://www.duden.de/rechtschreibung/weltlich' 
+	{
+		"word": "gestern",
+		"props": {
+			"wordClass": "Adverb",
+			"hyphenation": [
+				"ges",
+				"tern"
+			],
+			"meanings": [
+				"an dem Tag, der dem heutigen unmittelbar vorausgegangen ist",
+				"früher"
+			],
+			"ancestry": "mittelhochdeutsch gester(n), althochdeutsch gesteron, eigentlich = am anderen Tag"
 		}
+	}
 ]
 ```
 
 ## Todo
 - [x] simple word search
-- [ ] extend word results (distribution, hyphenation, ancestry, examples)
+- [x] extend word results (distribution, hyphenation, ancestry, examples)
 - [ ] documentation ;)
 - [ ] …
