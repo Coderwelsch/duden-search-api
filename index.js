@@ -23,14 +23,17 @@ class DudenSearchApi {
 		if (nightmareSettings) {
 			this.nightmareSettings = nightmareSettings;
 		}
+
+		// init nightmare instance
+		if (!DudenSearchApi.nightmareInstance) {
+			DudenSearchApi.nightmareInstance = new Nightmare(this.nightmareSettings);
+		}
 	}
 
 	async searchWord (word) {
 		if (!word) {
 			throw `Please specify a word to search`;
 		}
-
-		DudenSearchApi.nightmareInstance = new Nightmare(this.nightmareSettings);
 
 		const wordLinks = await this.getWordLinksFromPage(DudenSearchApi.generateSearchLink(word));
 		const wordDefs = await this.getWordDefinitions(wordLinks);
@@ -78,6 +81,12 @@ class DudenSearchApi {
 
 	static generateSearchLink (word) {
 		return `${ DudenSearchApi.SEARCH_PAGE_URL }${ word }`;
+	}
+
+	static end () {
+		if (DudenSearchApi.nightmareInstance {
+			DudenSearchApi.nightmareInstance.end();
+		}
 	}
 }
 
