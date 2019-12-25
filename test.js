@@ -1,12 +1,12 @@
-// modules
-const DudenApi = require( "./main.js" );
+const DudenSearchApi = require("./index.js");
 
 
-// variables
-let dudenApi = new DudenApi();
+async function test () {
+	const instance = new DudenSearchApi();
 
+	const result = await instance.searchWord("Buchstabe");
+	console.log(result);
+	process.exit();
+};
 
-//
-dudenApi.searchWordList( [ "bewahren", "Mann", "gestern" ], ( data ) => {
-	console.log( JSON.stringify( data, null, 4 ) );
-} );
+test();
